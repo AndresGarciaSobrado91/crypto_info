@@ -11,10 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.garcia.cryptoinfo.R
 import com.google.accompanist.flowlayout.FlowRow
 import com.garcia.cryptoinfo.presentation.coin_detail.components.CoinTag
 import com.garcia.cryptoinfo.presentation.coin_detail.components.TeamListItem
@@ -95,7 +97,7 @@ fun CoinDetailScreen(
 
         state.error?.let {
             Text(
-                text = state.error,
+                text = it.message ?: LocalContext.current.getString(it.resourceId),
                 color = MaterialTheme.colors.error,
                 textAlign = TextAlign.Center,
                 modifier = Modifier

@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.garcia.cryptoinfo.R
+import com.garcia.cryptoinfo.common.Error
 import com.garcia.cryptoinfo.common.ResultWrapper
 import com.garcia.cryptoinfo.domain.model.CoinDetail
 import com.garcia.cryptoinfo.domain.use_case.get_coin.GetCoinUseCase
@@ -22,7 +24,7 @@ class CoinDetailViewModel @Inject constructor(
     data class ViewState(
         val isLoading: Boolean = false,
         val coin: CoinDetail? = null,
-        val error: String? = null,
+        val error: Error? = null,
     )
 
     private val _state = mutableStateOf (ViewState())
@@ -39,10 +41,10 @@ class CoinDetailViewModel @Inject constructor(
         getCoinUseCase(coinId).onEach { result ->
             when(result){
                 is ResultWrapper.Error -> {
-                    _state.value = ViewState(error = result.message)
+                    _state.value = ViewState(error = Error(message = result.message))
                 }
                 ResultWrapper.NetworkError -> {
-                    _state.value = ViewState(error = "No internet connection.")
+                    _state.value = ViewState(error = Error(resourceId = R.string.connection_error))
                 }
                 is ResultWrapper.Success -> {
                     _state.value = ViewState(coin = result.value)

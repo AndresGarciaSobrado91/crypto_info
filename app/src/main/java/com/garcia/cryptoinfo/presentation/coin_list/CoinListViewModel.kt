@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.garcia.cryptoinfo.R
+import com.garcia.cryptoinfo.common.Error
 import com.garcia.cryptoinfo.common.ResultWrapper
 import com.garcia.cryptoinfo.domain.model.Coin
 import com.garcia.cryptoinfo.domain.use_case.get_coins.GetCoinsUseCase
@@ -20,7 +22,7 @@ class CoinListViewModel @Inject constructor(
     data class ViewState(
         val isLoading: Boolean = false,
         val coins: List<Coin> = emptyList(),
-        val error: String? = null,
+        val error: Error? = null,
     )
 
     //private val _state = mutableStateOf (ViewState())
@@ -39,10 +41,10 @@ class CoinListViewModel @Inject constructor(
         getCoinsUseCase().onEach { result ->
             when(result){
                 is ResultWrapper.Error -> {
-                    stateMutableLiveData.value = ViewState(error = result.message)
+                    stateMutableLiveData.value = ViewState(error = Error(message = result.message))
                 }
                 ResultWrapper.NetworkError -> {
-                    stateMutableLiveData.value = ViewState(error = "No internet connection.")
+                    stateMutableLiveData.value = ViewState(error = Error(resourceId = R.string.connection_error))
                 }
                 is ResultWrapper.Success -> {
                     stateMutableLiveData.value = ViewState(coins = result.value ?: emptyList())

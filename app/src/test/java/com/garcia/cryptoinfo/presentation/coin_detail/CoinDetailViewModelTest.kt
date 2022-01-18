@@ -1,6 +1,8 @@
 package com.garcia.cryptoinfo.presentation.coin_detail
 
 import androidx.lifecycle.SavedStateHandle
+import com.garcia.cryptoinfo.R
+import com.garcia.cryptoinfo.common.Error
 import com.garcia.cryptoinfo.common.ResultWrapper
 import com.garcia.cryptoinfo.domain.model.CoinDetail
 import com.garcia.cryptoinfo.domain.use_case.get_coin.GetCoinUseCase
@@ -69,7 +71,7 @@ class CoinDetailViewModelTest{
         viewModel.state.value shouldBeEqualTo CoinDetailViewModel.ViewState(
             isLoading = false,
             coin = null,
-            error = error.message
+            error = Error(message = error.message)
         )
     }
 
@@ -85,7 +87,7 @@ class CoinDetailViewModelTest{
         viewModel.state.value shouldBeEqualTo CoinDetailViewModel.ViewState(
             isLoading = false,
             coin = null,
-            error = "No internet connection."
+            error = Error(resourceId = R.string.connection_error)
         )
     }
 

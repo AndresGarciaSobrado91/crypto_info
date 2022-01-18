@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CryptoInfoApp</string>
+    <string name="connection_error">No internet connection.</string>
+    <string name="generic_error">"We are experiencing difficulties with the system. Please try again later."</string>
 </resources>
