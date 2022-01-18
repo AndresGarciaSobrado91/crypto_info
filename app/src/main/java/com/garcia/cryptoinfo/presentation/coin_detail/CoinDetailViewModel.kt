@@ -30,11 +30,11 @@ class CoinDetailViewModel @Inject constructor(
 
     init {
         savedStateHandle.get<String>("coinId")?.let {
-            getCoins(it)
+            getCoinDetails(it)
         }
     }
 
-    private fun getCoins(coinId: String){
+    private fun getCoinDetails(coinId: String){
         _state.value = ViewState(isLoading = true)
         getCoinUseCase(coinId).onEach { result ->
             when(result){

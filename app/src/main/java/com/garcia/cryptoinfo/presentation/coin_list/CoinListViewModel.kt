@@ -1,7 +1,7 @@
 package com.garcia.cryptoinfo.presentation.coin_list
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.garcia.cryptoinfo.common.ResultWrapper
@@ -23,25 +23,29 @@ class CoinListViewModel @Inject constructor(
         val error: String? = null,
     )
 
-    private val _state = mutableStateOf (ViewState())
-    val state : State<ViewState> = _state
+    //private val _state = mutableStateOf (ViewState())
+    //val state : State<ViewState> = _state
+
+    private val stateMutableLiveData = MutableLiveData(ViewState())
+    val stateLiveData = stateMutableLiveData as LiveData<ViewState>
 
     init {
         getCoins()
     }
 
     private fun getCoins(){
-        _state.value = ViewState(isLoading = true)
+        //_state.value = ViewState(isLoading = true)
+        stateMutableLiveData.value = ViewState(isLoading = true)
         getCoinsUseCase().onEach { result ->
             when(result){
                 is ResultWrapper.Error -> {
-                    _state.value = ViewState(error = result.message)
+                    stateMutableLiveData.value = ViewState(error = result.message)
                 }
                 ResultWrapper.NetworkError -> {
-                    _state.value = ViewState(error = "No internet connection.")
+                    stateMutableLiveData.value = ViewState(error = "No internet connection.")
                 }
                 is ResultWrapper.Success -> {
-                    _state.value = ViewState(coins = result.value ?: emptyList())
+                    stateMutableLiveData.value = ViewState(coins = result.value ?: emptyList())
                 }
             }
         }.launchIn(viewModelScope)

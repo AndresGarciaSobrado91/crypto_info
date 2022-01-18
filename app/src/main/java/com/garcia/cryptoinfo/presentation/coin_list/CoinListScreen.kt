@@ -10,6 +10,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -20,14 +21,15 @@ import com.garcia.cryptoinfo.presentation.Screen
 import com.garcia.cryptoinfo.presentation.coin_list.components.CoinListItem
 
 @Composable
-fun CoinListScreen(
+fun coinListScreen(
     navController: NavController,
     viewModel: CoinListViewModel = hiltViewModel()
 ){
-    val state = viewModel.state.value
+    val state = viewModel.stateLiveData.observeAsState()
+
     Box(modifier = Modifier.fillMaxSize()){
         LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(state.coins) { coin ->
+            items(state.value?.coins ?: listOf()) { coin ->
                 CoinListItem(
                     coin = coin,
                     onItemClick = {
@@ -36,9 +38,9 @@ fun CoinListScreen(
                 )
             }
         }
-        state.error?.let {
+        state.value?.error?.let {
             Text(
-                text = state.error,
+                text = it,
                 color = MaterialTheme.colors.error,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
@@ -47,7 +49,7 @@ fun CoinListScreen(
                     .align(Alignment.Center)
             )
         }
-        if(state.isLoading) {
+        if(state.value?.isLoading == true) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center)
             )
