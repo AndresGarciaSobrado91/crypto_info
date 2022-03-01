@@ -1,7 +1,5 @@
 package com.garcia.cryptoinfo.domain.model
 
-import com.garcia.cryptoinfo.data.remote.dto.CoinDetailDto
-
 data class CoinDetail(
     val coinId: String,
     val name: String,
@@ -12,5 +10,11 @@ data class CoinDetail(
     val isNew: Boolean,
     val type: String,
     val tags: List<String>,
-    val team: List<CoinDetailDto.TeamMember>
-)
+    val team: List<TeamMember>
+){
+    data class TeamMember(
+        val id: String,
+        val name: String,
+        val position: String
+    )
+}

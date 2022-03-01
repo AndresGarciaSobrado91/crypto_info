@@ -1,7 +1,5 @@
 package com.garcia.cryptoinfo.data.remote.network
 
-import android.content.res.Resources
-import com.garcia.cryptoinfo.R
 import com.garcia.cryptoinfo.common.ResultWrapper
 import retrofit2.HttpException
 import java.io.IOException
@@ -13,7 +11,7 @@ class ResponseHandler @Inject constructor() {
         return try {
             ResultWrapper.Success(apiCall.invoke())
         } catch (throwable: Throwable) {
-            val errorMessage = throwable.localizedMessage ?: Resources.getSystem().getString(R.string.unexpected_error_message)
+            val errorMessage = throwable.localizedMessage
             when (throwable) {
                 is IOException -> ResultWrapper.NetworkError
                 is HttpException -> {
@@ -21,7 +19,7 @@ class ResponseHandler @Inject constructor() {
                     ResultWrapper.Error(code, errorMessage)
                 }
                 else -> {
-                    ResultWrapper.Error(null, Resources.getSystem().getString(R.string.unexpected_error_message))
+                    ResultWrapper.Error(null, null)
                 }
             }
         }

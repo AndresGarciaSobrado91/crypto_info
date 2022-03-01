@@ -10,11 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
-import com.garcia.cryptoinfo.data.remote.dto.CoinDetailDto
+import com.garcia.cryptoinfo.domain.model.CoinDetail
 
 @Composable
 fun TeamListItem(
-    teamMember: CoinDetailDto.TeamMember,
+    teamMember: CoinDetail.TeamMember,
     modifier: Modifier = Modifier
 ){
     Column(

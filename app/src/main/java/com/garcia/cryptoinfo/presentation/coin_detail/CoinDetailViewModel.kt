@@ -41,7 +41,7 @@ class CoinDetailViewModel @Inject constructor(
         getCoinUseCase(coinId).onEach { result ->
             when(result){
                 is ResultWrapper.Error -> {
-                    _state.value = ViewState(error = Error(message = result.message))
+                    _state.value = ViewState(error = Error(resourceId = R.string.unexpected_error_message, message = result.message))
                 }
                 ResultWrapper.NetworkError -> {
                     _state.value = ViewState(error = Error(resourceId = R.string.connection_error))

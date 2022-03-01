@@ -7,8 +7,6 @@ import com.garcia.cryptoinfo.domain.model.CoinDetail
 data class CoinDetailDto(
     @SerializedName("contract")
     val contract: String,
-    @SerializedName("contracts")
-    val contracts: List<Contract>,
     @SerializedName("description")
     val description: String,
     @SerializedName("development_status")
@@ -27,10 +25,6 @@ data class CoinDetailDto(
     val isNew: Boolean,
     @SerializedName("last_data_at")
     val lastDataAt: String,
-    @SerializedName("links")
-    val links: Links,
-    @SerializedName("links_extended")
-    val linksExtended: List<LinksExtended>,
     @SerializedName("message")
     val message: String,
     @SerializedName("name")
@@ -39,8 +33,6 @@ data class CoinDetailDto(
     val openSource: Boolean,
     @SerializedName("org_structure")
     val orgStructure: String,
-    @SerializedName("parent")
-    val parent: Parent,
     @SerializedName("platform")
     val platform: String,
     @SerializedName("proof_type")
@@ -52,68 +44,13 @@ data class CoinDetailDto(
     @SerializedName("symbol")
     val symbol: String,
     @SerializedName("tags")
-    val tags: List<Tag>,
+    val tags: List<TagDto>,
     @SerializedName("team")
-    val team: List<TeamMember>,
+    val team: List<TeamMemberDto>,
     @SerializedName("type")
     val type: String,
-    @SerializedName("whitepaper")
-    val whitepaper: Whitepaper
 ) {
-    data class Contract(
-        @SerializedName("contract")
-        val contract: String,
-        @SerializedName("platform")
-        val platform: String,
-        @SerializedName("type")
-        val type: String
-    )
-
-    data class Links(
-        @SerializedName("explorer")
-        val explorer: List<String>,
-        @SerializedName("facebook")
-        val facebook: List<String>,
-        @SerializedName("reddit")
-        val reddit: List<String>,
-        @SerializedName("source_code")
-        val sourceCode: List<String>,
-        @SerializedName("website")
-        val website: List<String>,
-        @SerializedName("youtube")
-        val youtube: List<String>
-    )
-
-    data class LinksExtended(
-        @SerializedName("stats")
-        val stats: Stats,
-        @SerializedName("type")
-        val type: String,
-        @SerializedName("url")
-        val url: String
-    ) {
-        data class Stats(
-            @SerializedName("contributors")
-            val contributors: Int,
-            @SerializedName("followers")
-            val followers: Int,
-            @SerializedName("stars")
-            val stars: Int,
-            @SerializedName("subscribers")
-            val subscribers: Int
-        )
-    }
-
-    data class Parent(
-        @SerializedName("id")
-        val id: String,
-        @SerializedName("name")
-        val name: String,
-        @SerializedName("symbol")
-        val symbol: String
-    )
-
-    data class Tag(
+    data class TagDto(
         @SerializedName("coin_counter")
         val coinCounter: Int,
         @SerializedName("ico_counter")
@@ -124,21 +61,22 @@ data class CoinDetailDto(
         val name: String
     )
 
-    data class TeamMember(
+    data class TeamMemberDto(
         @SerializedName("id")
         val id: String,
         @SerializedName("name")
         val name: String,
         @SerializedName("position")
         val position: String
-    )
-
-    data class Whitepaper(
-        @SerializedName("link")
-        val link: String,
-        @SerializedName("thumbnail")
-        val thumbnail: String
-    )
+    ){
+        fun toTeamMember(): CoinDetail.TeamMember{
+            return CoinDetail.TeamMember(
+                id = id,
+                name = name,
+                position = position
+            )
+        }
+    }
 }
 
 fun CoinDetailDto.toCoinDetail(): CoinDetail {
@@ -152,6 +90,6 @@ fun CoinDetailDto.toCoinDetail(): CoinDetail {
         isNew = isNew,
         type = type,
         tags = tags.map { it.name },
-        team = team
+        team = team.map { it.toTeamMember() }
     )
 }

@@ -41,7 +41,7 @@ class CoinListViewModel @Inject constructor(
         getCoinsUseCase().onEach { result ->
             when(result){
                 is ResultWrapper.Error -> {
-                    stateMutableLiveData.value = ViewState(error = Error(message = result.message))
+                    stateMutableLiveData.value = ViewState(error = Error(resourceId = R.string.unexpected_error_message, message = result.message))
                 }
                 ResultWrapper.NetworkError -> {
                     stateMutableLiveData.value = ViewState(error = Error(resourceId = R.string.connection_error))
