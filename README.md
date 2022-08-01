@@ -13,7 +13,7 @@ An Android Jetpack Compose app with Clean Architecture
 | 🖼️  Image provider      | [Coil](https://github.com/coil-kt/coil)                                      |
 | 🧠  API                 | [CoinPaprika](https://api.coinpaprika.com/)                            |
 | 💉  DI                  | [Dagger-Hilt](https://dagger.dev/hilt/)                        |
-| 🛣️  Navigation-Compose  | [Navigation Compose](https://developer.android.com/jetpack/compose/navigation)                        |
+| 🛣️  Navigation  | [Navigation Compose](https://developer.android.com/jetpack/compose/navigation)                        |
 | 🌊  Async               | [Coroutines + Flow](https://kotlinlang.org/docs/coroutines-overview.html)                |
 | 🌐  Networking          | [Retrofit](https://github.com/square/retrofit)                        |
 | 📄  JSON                | [Gson](https://github.com/google/gson)                            |
